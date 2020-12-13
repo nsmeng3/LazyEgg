@@ -17,8 +17,14 @@
     <dependencies>
         <dependency>
             <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.lazyegg</groupId>
             <artifactId>lazyegg-metadata-adapter</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
@@ -36,6 +42,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

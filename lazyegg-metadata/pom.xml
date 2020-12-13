@@ -57,4 +57,15 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-core</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

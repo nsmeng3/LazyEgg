@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <parent>
         <groupId>io.lazyegg</groupId>
         <artifactId>lazyegg-parent</artifactId>
@@ -10,36 +9,20 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>lazyegg-common</artifactId>
+    <artifactId>lazyegg-web</artifactId>
 
     <dependencies>
-        <!-- COLA start-->
         <dependency>
-            <groupId>com.alibaba.cola</groupId>
-            <artifactId>cola-component-exception</artifactId>
+            <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.cola</groupId>
-            <artifactId>cola-component-dto</artifactId>
-        </dependency>
-        <!-- COLA end-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
     </dependencies>

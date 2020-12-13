@@ -14,14 +14,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>cola-common</artifactId>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-domain-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>cola-core</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>
