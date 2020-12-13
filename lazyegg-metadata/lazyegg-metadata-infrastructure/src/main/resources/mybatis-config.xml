@@ -13,7 +13,9 @@
         <package name="io.lazyegg.metadata.mapper"/>
     </typeAliases>
     <mappers>
-        <mapper resource="mybatis/TablesMapper.xml"/>
-        <mapper resource="mybatis/ColumnsMapper.xml"/>
+        <mapper resource="mybatis/MySqlTablesMapper.xml"/>
+        <mapper resource="mybatis/MySqlColumnsMapper.xml"/>
+        <mapper resource="mybatis/SqlServerTablesMapper.xml"/>
+        <mapper resource="mybatis/SqlServerColumnsMapper.xml"/>
     </mappers>
 </configuration>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.lazyegg.metadata.mapper.TablesMapper">
+<mapper namespace="io.lazyegg.metadata.mapper.MySqlTablesMapper">
     <resultMap type="io.lazyegg.metadata.mapper.TablesDO" id="tablesMap">
         <result property="tableCatalog" column="table_catalog"/>
         <result property="tableSchema" column="table_schema"/>

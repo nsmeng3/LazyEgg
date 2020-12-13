@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.lazyegg.metadata.mapper.SqlServerTablesMapper">
+    <resultMap type="io.lazyegg.metadata.mapper.TablesDO" id="tablesMap">
+        <result property="tableName" column="tableName"/>
+        <result property="tableComment" column="tableComment"/>
+        <result property="autoIncrement" column="auto_increment"/>
+        <result property="tableCollation" column="table_collation"/>
+        <result property="createTime" column="createTime"/>
+        <result property="engine" column="engine"/>
+    </resultMap>
+
+    <select id="getByTableName" resultType="io.lazyegg.metadata.mapper.TablesDO" resultMap="tablesMap">
+        select *
+        from (
+                 select cast(so.name as varchar(500))   as tableName,
+                        'mssql'                         as engine,
+                        cast(sep.value as varchar(500)) as tableComment,
+                        getDate()                       as createTime
+                 from sysobjects so
+                          left JOIN sys.extended_properties sep on sep.major_id = so.id and sep.minor_id = 0
+                 where (xtype = 'U' or xtype = 'v')
+             ) t
+        where t.tableName = #{tableName}
+    </select>
+    <select id="listTable" resultType="io.lazyegg.metadata.mapper.TablesDO">
+        select *
+        from (
+                 select cast(so.name as varchar(500))   as tableName,
+                        'mssql'                         as engine,
+                        cast(sep.value as varchar(500)) as tableComment,
+                        getDate()                       as createTime
+                 from sysobjects so
+                          left JOIN sys.extended_properties sep on sep.major_id = so.id and sep.minor_id = 0
+                 where (xtype = 'U' or xtype = 'v')
+             ) t
+    </select>
+
+</mapper>

@@ -2,8 +2,10 @@ package io.lazyegg.metadata.gatewayimpl;
 
 import io.lazyegg.demo.domain.metadata.gateway.TablesGateway;
 import io.lazyegg.metadata.domain.metadata.Tables;
+import io.lazyegg.metadata.mapper.BaseTablesMapper;
+import io.lazyegg.metadata.mapper.MySqlTablesMapper;
+import io.lazyegg.metadata.mapper.SqlServerTablesMapper;
 import io.lazyegg.metadata.mapper.TablesDO;
-import io.lazyegg.metadata.mapper.TablesMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +21,11 @@ import java.util.List;
 @Component
 public class TablesGatewayImpl implements TablesGateway {
     @Resource
-    private TablesMapper tablesMapper;
+    private BaseTablesMapper metadataTablesMapper;
 
     @Override
     public Tables getTable(String tableName) {
-        TablesDO tablesDO = tablesMapper.getByTableName(tableName);
+        TablesDO tablesDO = metadataTablesMapper.getByTableName(tableName);
         Tables tables = new Tables();
         BeanUtils.copyProperties(tablesDO, tables);
         return tables;
@@ -31,7 +33,7 @@ public class TablesGatewayImpl implements TablesGateway {
 
     @Override
     public List<Tables> listTable(String tableSchema) {
-        List<TablesDO> tablesDOList = tablesMapper.listTable(tableSchema);
+        List<TablesDO> tablesDOList = metadataTablesMapper.listTable(tableSchema);
         ArrayList<Tables> tables = new ArrayList<>();
         tablesDOList.forEach(tablesDO -> {
             Tables temp = new Tables();

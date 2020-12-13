@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.lazyegg.metadata.mapper.ColumnsMapper">
+<mapper namespace="io.lazyegg.metadata.mapper.MySqlColumnsMapper">
+
     <resultMap type="io.lazyegg.metadata.mapper.ColumnsDO" id="columnsMap">
         <result property="tableCatalog" column="table_catalog"/>
         <result property="tableSchema" column="table_schema"/>
@@ -29,7 +30,9 @@
     <select id="listByTableName" resultType="io.lazyegg.metadata.mapper.ColumnsDO">
         select *
         from information_schema.columns
-        where table_schema = (select database()) and table_name = #{tableName}
+        where table_schema = (select database())
+          and table_name = #{tableName}
+        order by ordinal_position
     </select>
 
 </mapper>

@@ -9,7 +9,6 @@ import java.sql.Date;
  */
 @Data
 public class TablesDO {
-    private String tableCatalog;
     private String tableSchema;
     private String tableName;
     private String tableComment;

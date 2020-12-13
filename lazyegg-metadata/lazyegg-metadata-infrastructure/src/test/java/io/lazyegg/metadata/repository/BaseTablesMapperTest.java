@@ -2,20 +2,20 @@ package io.lazyegg.metadata.repository;
 
 import com.alibaba.cola.exception.Assert;
 import io.lazyegg.metadata.mapper.TablesDO;
-import io.lazyegg.metadata.mapper.TablesMapper;
+import io.lazyegg.metadata.mapper.BaseTablesMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TablesMapperTest {
+public class BaseTablesMapperTest {
     SqlSession sqlSession;
-    TablesMapper tablesMapper;
+    BaseTablesMapper baseTablesMapper;
 
     @Before
     public void before() {
         sqlSession = Mybatis3Utils.getCurrentSqlSession();
-        tablesMapper = sqlSession.getMapper(TablesMapper.class);
+        baseTablesMapper = sqlSession.getMapper(BaseTablesMapper.class);
     }
 
     @After
@@ -24,7 +24,7 @@ public class TablesMapperTest {
     }
     @Test
     public void testFindByID() {
-        TablesDO user = tablesMapper.getByTableName("user");
+        TablesDO user = baseTablesMapper.getByTableName("user");
         Assert.notNull(user);
         System.out.println("Write your test here");
     }

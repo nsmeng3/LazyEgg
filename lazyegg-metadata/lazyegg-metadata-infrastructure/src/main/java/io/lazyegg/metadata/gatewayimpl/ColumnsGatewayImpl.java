@@ -2,8 +2,10 @@ package io.lazyegg.metadata.gatewayimpl;
 
 import io.lazyegg.metadata.domain.metadata.Columns;
 import io.lazyegg.metadata.domain.metadata.gateway.ColumnsGateway;
+import io.lazyegg.metadata.mapper.BaseColumnsMapper;
 import io.lazyegg.metadata.mapper.ColumnsDO;
-import io.lazyegg.metadata.mapper.ColumnsMapper;
+import io.lazyegg.metadata.mapper.MySqlColumnsMapper;
+import io.lazyegg.metadata.mapper.SqlServerColumnsMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +20,13 @@ import java.util.List;
 public class ColumnsGatewayImpl implements ColumnsGateway {
 
     @Resource
-    private ColumnsMapper columnsMapper;
+    private BaseColumnsMapper metadataColumnsMapper;
+
 
     @Override
     public List<Columns> listColumn(String tableName) {
-        List<ColumnsDO> list = columnsMapper.listByTableName(tableName);
+//        MetaDataFactory.
+        List<ColumnsDO> list = metadataColumnsMapper.listByTableName(tableName);
         ArrayList<Columns> columnsArrayList = new ArrayList<>();
         list.forEach(source -> {
             Columns target = new Columns();
