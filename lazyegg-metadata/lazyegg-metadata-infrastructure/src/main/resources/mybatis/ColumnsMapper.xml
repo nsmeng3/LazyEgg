@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.lazyegg.metadata.mapper.ColumnsMapper">
+    <resultMap type="io.lazyegg.metadata.mapper.ColumnsDO" id="columnsMap">
+        <result property="tableCatalog" column="table_catalog"/>
+        <result property="tableSchema" column="table_schema"/>
+        <result property="tableName" column="table_name"/>
+        <result property="columnName" column="column_name"/>
+        <result property="ordinalPosition" column="ordinal_position"/>
+        <result property="columnDefault" column="column_default"/>
+        <result property="isNullable" column="is_nullable"/>
+        <result property="dataType" column="data_type"/>
+        <result property="characterMaximumLength" column="character_maximum_length"/>
+        <result property="characterOctetLength" column="character_octet_length"/>
+        <result property="numericPrecision" column="numeric_precision"/>
+        <result property="numericScale" column="numeric_scale"/>
+        <result property="datetimePrecision" column="datetime_precision"/>
+        <result property="characterSetName" column="character_set_name"/>
+        <result property="collationName" column="collation_name"/>
+        <result property="columnType" column="column_type"/>
+        <result property="columnKey" column="column_key"/>
+        <result property="extra" column="extra"/>
+        <result property="privileges" column="Privileges"/>
+        <result property="columnComment" column="column_comment"/>
+    </resultMap>
+
+    <select id="listByTableName" resultType="io.lazyegg.metadata.mapper.ColumnsDO">
+        select *
+        from information_schema.columns
+        where table_schema = (select database()) and table_name = #{tableName}
+    </select>
+
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>io.lazyegg</groupId>
+        <artifactId>lazyegg-parent</artifactId>
+        <version>0.0.1</version>
+        <relativePath>../lazyegg-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lazyegg-metadata</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>lazyegg-metadata-adapter</module>
+        <module>lazyegg-metadata-app</module>
+        <module>lazyegg-metadata-client</module>
+        <module>lazyegg-metadata-domain</module>
+        <module>lazyegg-metadata-infrastructure</module>
+        <module>metadata-start</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.lazyegg</groupId>
+                <artifactId>lazyegg-metadata-domain</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.lazyegg</groupId>
+                <artifactId>lazyegg-metadata-client</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.lazyegg</groupId>
+                <artifactId>lazyegg-metadata-infrastructure</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.lazyegg</groupId>
+                <artifactId>lazyegg-metadata-app</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.lazyegg</groupId>
+                <artifactId>lazyegg-metadata-adapter</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
