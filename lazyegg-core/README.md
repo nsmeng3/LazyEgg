@@ -1,0 +1,1 @@
+# LazyEgg core
