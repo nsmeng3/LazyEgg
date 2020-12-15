@@ -17,12 +17,12 @@
     <dependencies>
         <dependency>
             <groupId>io.lazyegg</groupId>
-            <artifactId>lazyegg-web</artifactId>
+            <artifactId>lazyegg-metadata-adapter</artifactId>
         </dependency>
 
         <dependency>
             <groupId>io.lazyegg</groupId>
-            <artifactId>lazyegg-metadata-adapter</artifactId>
+            <artifactId>lazyegg-core-web</artifactId>
         </dependency>
 
         <dependency>
