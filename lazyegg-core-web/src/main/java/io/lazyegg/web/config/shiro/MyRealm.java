@@ -1,4 +1,4 @@
-package io.lazyegg.config.shiro;
+package io.lazyegg.web.config.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;

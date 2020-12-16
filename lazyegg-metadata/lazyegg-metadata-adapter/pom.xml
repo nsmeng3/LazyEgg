@@ -10,6 +10,7 @@
     </parent>
     <artifactId>lazyegg-metadata-adapter</artifactId>
     <name>lazyegg-metadata-adapter</name>
+
     <dependencies>
         <dependency>
             <groupId>io.lazyegg</groupId>
@@ -23,6 +24,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-core-web</artifactId>
         </dependency>
     </dependencies>
 

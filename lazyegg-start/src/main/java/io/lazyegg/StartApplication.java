@@ -1,5 +1,6 @@
 package io.lazyegg;
 
+import io.lazyegg.web.config.shiro.EnableShiroConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,9 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Frank Zhang
  */
 @SpringBootApplication
-public class Application {
+@EnableShiroConfig
+public class StartApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(StartApplication.class, args);
     }
 }

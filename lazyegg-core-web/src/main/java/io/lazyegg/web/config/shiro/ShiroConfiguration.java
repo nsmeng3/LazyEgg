@@ -1,11 +1,10 @@
-package io.lazyegg.config.shiro;
+package io.lazyegg.web.config.shiro;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,8 +15,7 @@ import java.util.Map;
  * @author DifferentW  nsmeng3@163.com 2020/12/15 9:12 下午
  */
 @Slf4j
-@Configuration
-public class ShiroConfig {
+public class ShiroConfiguration {
 
 
     /**
@@ -49,8 +47,6 @@ public class ShiroConfig {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-
-
         // 默认登录url
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后跳转页面

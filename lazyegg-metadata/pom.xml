@@ -66,6 +66,10 @@
             <groupId>io.lazyegg</groupId>
             <artifactId>lazyegg-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-core-web</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

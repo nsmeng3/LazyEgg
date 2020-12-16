@@ -1,4 +1,4 @@
-package io.lazyegg.exception;
+package io.lazyegg.web.exception;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.exception.BaseException;

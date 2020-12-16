@@ -11,9 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(scanBasePackages = {"io.lazyegg","com.alibaba.cola"})
 @MapperScan("io.lazyegg.*.mapper")
-public class Application {
+public class MetadataApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(MetadataApplication.class, args);
     }
 }
