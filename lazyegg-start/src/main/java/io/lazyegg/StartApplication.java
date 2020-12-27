@@ -1,8 +1,9 @@
 package io.lazyegg;
 
-import io.lazyegg.web.config.shiro.EnableShiroConfig;
+import io.lazyegg.auth.infrastructure.config.EnableShiroConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * Spring Boot Starter
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Frank Zhang
  */
 @SpringBootApplication
+@EnableAsync
 @EnableShiroConfig
 public class StartApplication {
 

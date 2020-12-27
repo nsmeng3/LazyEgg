@@ -33,8 +33,12 @@
         </dependency>
         <dependency>
             <groupId>io.lazyegg</groupId>
-            <artifactId>metadata-start</artifactId>
-            <version>0.0.1</version>
+            <artifactId>lazyegg-core-auth</artifactId>
         </dependency>
+        <!--        <dependency>-->
+<!--            <groupId>io.lazyegg</groupId>-->
+<!--            <artifactId>metadata-start</artifactId>-->
+<!--            <version>0.0.1</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>
