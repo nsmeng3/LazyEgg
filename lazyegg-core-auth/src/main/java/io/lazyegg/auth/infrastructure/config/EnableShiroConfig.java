@@ -1,4 +1,4 @@
-package io.lazyegg.web.config.shiro;
+package io.lazyegg.auth.infrastructure.config;
 
 import org.springframework.context.annotation.Import;
 

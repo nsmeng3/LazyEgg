@@ -9,10 +9,14 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>lazyegg-core-web</artifactId>
+    <artifactId>lazyegg-core-auth</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>io.lazyegg</groupId>
+            <artifactId>lazyegg-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.lazyegg</groupId>
             <artifactId>lazyegg-common</artifactId>
@@ -29,7 +33,15 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
