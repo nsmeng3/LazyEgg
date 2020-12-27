@@ -25,10 +25,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.lazyegg</groupId>
-            <artifactId>lazyegg-core-web</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

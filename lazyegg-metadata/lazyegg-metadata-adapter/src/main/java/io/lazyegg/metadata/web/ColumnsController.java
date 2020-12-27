@@ -4,7 +4,7 @@ import com.alibaba.cola.dto.MultiResponse;
 import io.lazyegg.metadata.api.ColumnsServiceI;
 import io.lazyegg.metadata.dto.ColumnsListByTableNameQuery;
 import io.lazyegg.metadata.dto.data.ColumnsDTO;
-import io.lazyegg.web.annotation.SysLog;
+import io.lazyegg.annotation.SysLog;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

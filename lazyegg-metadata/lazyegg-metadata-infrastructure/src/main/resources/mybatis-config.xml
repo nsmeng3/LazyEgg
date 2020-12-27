@@ -11,11 +11,14 @@
     <typeAliases>
         <!--项目DataObject对应的包名-->
         <package name="io.lazyegg.metadata.mapper"/>
+        <package name="io.lazyegg.auth.infrastructure.mapper"/>
     </typeAliases>
     <mappers>
         <mapper resource="mybatis/MySqlTablesMapper.xml"/>
         <mapper resource="mybatis/MySqlColumnsMapper.xml"/>
         <mapper resource="mybatis/SqlServerTablesMapper.xml"/>
         <mapper resource="mybatis/SqlServerColumnsMapper.xml"/>
+<!--        <mapper resource="mybatis/SysRoleMapper.xml"/>-->
+        <mapper resource="mybatis/SysUserMapper.xml"/>
     </mappers>
 </configuration>

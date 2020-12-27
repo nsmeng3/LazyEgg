@@ -22,8 +22,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
 @Slf4j
+@Configuration
 public class DBConfig {
     public final static String DBConfig = "DBConfig";
 

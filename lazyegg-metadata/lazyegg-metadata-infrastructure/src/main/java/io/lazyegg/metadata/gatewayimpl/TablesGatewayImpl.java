@@ -3,8 +3,6 @@ package io.lazyegg.metadata.gatewayimpl;
 import io.lazyegg.demo.domain.metadata.gateway.TablesGateway;
 import io.lazyegg.metadata.domain.metadata.Tables;
 import io.lazyegg.metadata.mapper.BaseTablesMapper;
-import io.lazyegg.metadata.mapper.MySqlTablesMapper;
-import io.lazyegg.metadata.mapper.SqlServerTablesMapper;
 import io.lazyegg.metadata.mapper.TablesDO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;

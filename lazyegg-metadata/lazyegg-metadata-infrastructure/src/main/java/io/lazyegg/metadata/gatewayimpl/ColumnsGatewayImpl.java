@@ -4,8 +4,6 @@ import io.lazyegg.metadata.domain.metadata.Columns;
 import io.lazyegg.metadata.domain.metadata.gateway.ColumnsGateway;
 import io.lazyegg.metadata.mapper.BaseColumnsMapper;
 import io.lazyegg.metadata.mapper.ColumnsDO;
-import io.lazyegg.metadata.mapper.MySqlColumnsMapper;
-import io.lazyegg.metadata.mapper.SqlServerColumnsMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
