@@ -68,7 +68,7 @@
         </dependency>
         <dependency>
             <groupId>io.lazyegg</groupId>
-            <artifactId>lazyegg-core-web</artifactId>
+            <artifactId>lazyegg-core-auth</artifactId>
         </dependency>
     </dependencies>
 
