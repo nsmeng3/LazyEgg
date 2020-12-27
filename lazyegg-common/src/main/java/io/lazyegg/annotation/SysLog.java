@@ -1,4 +1,4 @@
-package io.lazyegg.web.annotation;
+package io.lazyegg.annotation;
 
 import java.lang.annotation.*;
 

@@ -1,7 +1,8 @@
-package io.lazyegg.web.exception;
+package io.lazyegg.exception;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.exception.BaseException;
+import io.lazyegg.util.HttpStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +23,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Response handleBizException(Exception e){
-        return Response.buildFailure("UNKNOWN", e.getMessage());
+        if ("org.apache.shiro.authz.UnauthorizedException".equals(e.getClass().getName())) {
+            log.warn("无权访问:{}",e.getCause().getMessage());
+            return Response.buildFailure(String.valueOf(HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED.name());
+        }
+        return Response.buildFailure("Unknown", e.getMessage());
     }
 }

@@ -1,16 +1,18 @@
-package io.lazyegg.web.aspect;
+package io.lazyegg.aspect;
 
-import io.lazyegg.web.annotation.SysLog;
+import io.lazyegg.annotation.SysLog;
+import io.lazyegg.log.LogService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.util.concurrent.Future;
 
 /**
  * 系统日志切面
@@ -22,10 +24,13 @@ import java.lang.reflect.Method;
 @Component
 public class SysLogAspect {
 
+    @Resource
+    private LogService logService;
+
     /**
      * 切点
      */
-    @Pointcut("@annotation(io.lazyegg.web.annotation.SysLog))")
+    @Pointcut("@annotation(io.lazyegg.annotation.SysLog))")
     public void logPointCut() {
     }
 
@@ -36,20 +41,8 @@ public class SysLogAspect {
         Object result = point.proceed();
         //执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
-
         //保存日志
-        logSave(point, time);
-
+        logService.save(point, time);
         return result;
-    }
-
-    private void logSave(ProceedingJoinPoint joinPoint, long time) {
-        log.info("执行时间{}ms", time);
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-        SysLog annotation = method.getAnnotation(SysLog.class);
-        String value = annotation.value();
-        log.info("执行了[{}]", value);
-        // TODO 存储系统日志，及更多日志信息收集
     }
 }
