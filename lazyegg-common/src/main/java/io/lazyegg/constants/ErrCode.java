@@ -7,7 +7,9 @@ package io.lazyegg.constants;
  */
 public enum ErrCode {
 
-    OK("00000", "一切正常");
+    OK("00000", "一切正常"),
+    UNKNOWN_ERR("UNKNOWN_ERR", "未知错误，请联系管理员！"),
+    NOT_FOUND("NOT_FOUND","请求资源不存在");
 
     private final String errCode;
     private final String errMessage;
@@ -17,11 +19,11 @@ public enum ErrCode {
         this.errMessage = errMessage;
     }
 
-    public String errCode() {
+    public String getErrCode() {
         return errCode;
     }
 
-    public String errMessage() {
+    public String getErrMessage() {
         return errMessage;
     }
 
