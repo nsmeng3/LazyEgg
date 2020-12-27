@@ -5,6 +5,7 @@ import io.lazyegg.auth.domain.gateway.SysUserGateway;
 import io.lazyegg.auth.domain.model.SysUser;
 import io.lazyegg.auth.infrastructure.mapper.SysUserDO;
 import io.lazyegg.auth.infrastructure.mapper.SysUserMapper;
+import io.lazyegg.constants.ErrCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class SysUserGatewayImpl implements SysUserGateway {
     @Override
     public SysUser getByUsername(String username) {
         SysUserDO sysUserDO = sysUserMapper.getByUsername(username);
-        Assert.notNull(sysUserDO, "请求参数不能为空");
+        Assert.notNull(sysUserDO, ErrCode.UserErr.UserLoginErr.A0201.name(), ErrCode.UserErr.UserLoginErr.A0201.getErrMessage());
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserDO, sysUser);
         return sysUser;

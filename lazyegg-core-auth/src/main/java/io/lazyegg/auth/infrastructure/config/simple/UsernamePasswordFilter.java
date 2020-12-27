@@ -1,7 +1,10 @@
 package io.lazyegg.auth.infrastructure.config.simple;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.exception.BaseException;
+import com.alibaba.cola.exception.BizException;
 import com.alibaba.fastjson.JSONObject;
+import io.lazyegg.constants.ErrCode;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +32,7 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
 
 
     @SneakyThrows
-    private UsernamePasswordToken getToken(HttpServletRequest request) throws AuthorizationException{
+    private UsernamePasswordToken getToken(HttpServletRequest request) throws AuthorizationException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -38,7 +41,7 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
             String json = IOUtils.toString(request.getInputStream(), Charset.defaultCharset());
             JSONObject jsonObject = JSONObject.parseObject(json);
             if (jsonObject == null) {
-                throw new RuntimeException("请登录");
+                throw new BizException(ErrCode.UserErr.UserLoginErr.A0230.name(), ErrCode.UserErr.UserLoginErr.A0230.getErrMessage());
             }
             username = jsonObject.getString("username");
             password = jsonObject.getString("password");
@@ -68,18 +71,18 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-//        httpResponse.setContentType("application/json;charset=utf-8");
-//        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-//        httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtils.getOrigin());
         Response res;
-        if (e instanceof UnknownAccountException) {
-            res = Response.buildFailure("400", "账号或密码不正确");
+        if (e.getCause() instanceof BaseException) {
+            Throwable cause = e.getCause();
+            res = Response.buildFailure(((BaseException) cause).getErrCode(), cause.getMessage());
+        } else if (e instanceof UnknownAccountException) {
+            res = Response.buildFailure(ErrCode.UserErr.UserLoginErr.A0201.name(), ErrCode.UserErr.UserLoginErr.A0201.getErrMessage());
         } else if (e instanceof IncorrectCredentialsException) {
-            res = Response.buildFailure("401", "账号或密码不正确");
+            res = Response.buildFailure(ErrCode.UserErr.UserLoginErr.A0210.name(), ErrCode.UserErr.UserLoginErr.A0210.getErrMessage());
         } else if (e instanceof LockedAccountException) {
-            res = Response.buildFailure("402", "账号已被锁定,请联系管理员");
+            res = Response.buildFailure(ErrCode.UserErr.UserLoginErr.A0202.name(), ErrCode.UserErr.UserLoginErr.A0202.getErrMessage());
         } else {
-            res = Response.buildFailure("500", e.getMessage());
+            res = Response.buildFailure(ErrCode.UserErr.UserLoginErr.A0220.name(), ErrCode.UserErr.UserLoginErr.A0220.getErrMessage());
         }
         httpResponse.getWriter().print(JSONObject.toJSONString(res));
         return false;

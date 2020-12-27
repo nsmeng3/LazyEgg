@@ -64,7 +64,7 @@ public class ShiroConfiguration {
         filterChainMap.put("/swagger-*/**", "anon");
         filterChainMap.put("/swagger-ui.html/**", "anon");
         // 登录 URL 放行
-        filterChainMap.put("/login", "anon");
+        filterChainMap.put("/login", "simple");
         // 配置 logout 过滤器
         filterChainMap.put("/logout", "anon");
 

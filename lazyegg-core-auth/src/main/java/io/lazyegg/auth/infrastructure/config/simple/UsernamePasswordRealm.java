@@ -1,7 +1,9 @@
 package io.lazyegg.auth.infrastructure.config.simple;
 
+import com.alibaba.cola.exception.BizException;
 import io.lazyegg.auth.domain.gateway.SysUserGateway;
 import io.lazyegg.auth.domain.model.SysUser;
+import io.lazyegg.constants.ErrCode;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -82,20 +84,20 @@ public class UsernamePasswordRealm extends AuthorizingRealm {
         // 根据 Token 获取用户名，如果您不知道该 Token 怎么来的，先可以不管，下文会解释
         String username = (String) authenticationToken.getPrincipal();
         if (StringUtils.isBlank(username)) {
-            throw new AuthenticationException("用户名密码不能为空");
+            throw new BizException(ErrCode.UserErr.UserLoginErr.A0210.name(),ErrCode.UserErr.UserLoginErr.A0210.getErrMessage());
         }
         // 根据用户名从数据库中查询该用户
         SysUser user = getByUsername(username);
         if (user != null) {
             // 获取权限列表
-            AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user, user.getUsername(), "myRealm");
-            // 把当前用户存到 Session 中 清除密码
+            AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user, user.getUsername(), "UsernamePasswordRealm");
+            // 清除密码
             user.clearPassword();
             SecurityUtils.getSubject().getSession().setAttribute("user", user);
             // 传入用户名和密码进行身份认证，并返回认证信息
             return authcInfo;
         } else {
-            throw new UnknownAccountException("用户名不存在");
+            throw new BizException(ErrCode.UserErr.UserLoginErr.A0201.name(), ErrCode.UserErr.UserLoginErr.A0201.getErrMessage());
         }
     }
 
