@@ -321,7 +321,7 @@ public enum ErrCode {
      * 系统执行出错
      */
     public enum SysExecErr {
-        B0001("用户端错误");
+        B0001("系统执行出错");
 
 
         private final String errMessage;
