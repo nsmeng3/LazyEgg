@@ -1,5 +1,6 @@
 package io.lazyegg.auth.infrastructure.config;
 
+import io.lazyegg.auth.infrastructure.config.oauth.OAuth2Filter;
 import io.lazyegg.auth.infrastructure.config.simple.UsernamePasswordCredentialMatcher;
 import io.lazyegg.auth.infrastructure.config.simple.UsernamePasswordFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,7 @@ public class ShiroConfiguration {
 
         HashMap<String, Filter> filters = new HashMap<>();
         filters.put("simple", new UsernamePasswordFilter());
+        filters.put("oauth2", new OAuth2Filter());
         shiroFilterFactoryBean.setFilters(filters);
         // LinkedHashMap 是有序的，进行顺序拦截器配置
         Map<String, String> filterChainMap = new LinkedHashMap<>();
@@ -63,13 +65,13 @@ public class ShiroConfiguration {
         filterChainMap.put("/js/**", "anon");
         filterChainMap.put("/swagger-*/**", "anon");
         filterChainMap.put("/swagger-ui.html/**", "anon");
-        filterChainMap.put("/oauth/**", "anon");
+        filterChainMap.put("/oauth/**", "oauth2");
         // 登录 URL 放行
         filterChainMap.put("/login", "simple");
         // 配置 logout 过滤器
         filterChainMap.put("/logout", "anon");
 
-        filterChainMap.put("/**", "simple");
+        filterChainMap.put("/**", "oauth2");
 
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);

@@ -16,9 +16,7 @@ public class LeggOAuthTokenGetCmdExe {
     public Response execute(OAuthTokenGetCmd oAuthTokenGetCmd) {
 
         AuthorizationCode authorizationCode =
-            new AuthorizationCode(
-                oAuthTokenGetCmd.getGrantType(), oAuthTokenGetCmd.getClientId(), oAuthTokenGetCmd.getClientSecret(),
-                oAuthTokenGetCmd.getCode());
+            new AuthorizationCode();
 
         // 检查GrantType
         authorizationCode.checkGrantType(oAuthTokenGetCmd.getGrantType());

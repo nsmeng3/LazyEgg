@@ -16,10 +16,6 @@ public abstract class OAuthToken {
     private String grantType;
     private String clientId;
 
-    public OAuthToken(String grantType, String clientId) {
-        this.grantType = grantType;
-        this.clientId = clientId;
-    }
 
     /**
      * 检查 grantType

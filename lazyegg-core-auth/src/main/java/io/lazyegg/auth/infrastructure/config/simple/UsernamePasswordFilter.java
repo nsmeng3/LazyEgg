@@ -41,7 +41,10 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
             String json = IOUtils.toString(request.getInputStream(), Charset.defaultCharset());
             JSONObject jsonObject = JSONObject.parseObject(json);
             if (jsonObject == null) {
-                throw new BizException(ErrCode.UserErr.UserLoginErr.A0230.name(), ErrCode.UserErr.UserLoginErr.A0230.getErrMessage());
+                // 用户登录已过期
+                String errCode = ErrCode.UserErr.UserLoginErr.A0230.name();
+                String errMessage = ErrCode.UserErr.UserLoginErr.A0230.getErrMessage();
+                throw new BizException(errCode, errMessage);
             }
             username = jsonObject.getString("username");
             password = jsonObject.getString("password");
@@ -55,7 +58,7 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
     }
 
     /**
-     * 是否是拒绝登录
+     * 是否是拒绝登录, 用户做黑白名单处理
      *
      * @param request
      * @param response
