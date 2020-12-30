@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.ServletException;
+
 /**
  * 全局异常处理
  *
@@ -22,13 +24,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public Response handleBizException(Exception e) {
+    public Response handleBizException(Exception e) throws ClassNotFoundException {
         if ("org.apache.shiro.authz.UnauthorizedException".equals(e.getClass().getName())) {
             log.warn("没有访问权限 --->> {}", e.getCause().getMessage());
             return Response.buildFailure(ErrCode.UserErr.AssessPermissionException.A0301.name(),
                 ErrCode.UserErr.AssessPermissionException.A0301.getErrMessage());
         } else if ("org.springframework.web.servlet.NoHandlerFoundException".equals(e.getClass().getName())) {
             return Response.buildFailure(ErrCode.NOT_FOUND.name(), ErrCode.NOT_FOUND.getErrMessage());
+        }else if (e instanceof ServletException) {
+            return Response.buildFailure("HTTP_ERR", e.getMessage());
         }
         log.error(e.getMessage(), e);
         return Response.buildFailure(ErrCode.UNKNOWN_ERR.name(), ErrCode.UNKNOWN_ERR.getErrMessage());
