@@ -31,55 +31,66 @@ import java.util.regex.Pattern;
 @Getter
 @Setter
 @Entity
-public class AuthorizationCode extends OAuthToken {
+public class AuthorizationCode {
 
     private static final String AUTHORIZATION_CODE = "authorization_code";
     private static final String CODE = "code";
 
+    private String grantType;
+    private String clientId;
     private String clientSecret;
     private String scope;
+    /**
+     * 客户端生成的随机数，授权服务器回原样返回，防止CSRF攻击
+     */
+    private String state;
 
     public static HashMap<String, String> authorizationCodeCacheMap = new HashMap<>();
 
-    public static AuthorizeBuilder authorize(AuthorizationCode authorizationCode) {
-        return new AuthorizeBuilder(authorizationCode);
+    public static AuthorizeBuilder authorize(AuthorizationRequest authorizationRequest) {
+        return new AuthorizeBuilder(authorizationRequest);
     }
 
-    /**
-     * 验证 response_type
-     *
-     * @param responseType
-     * @return
-     */
-    public static boolean verifyResponseType(String responseType) {
-        boolean checkResponseType = ResponseType.Code.equals(ResponseType.of(responseType));
-        if (!checkResponseType) {
-            String errCode = ErrCode.UserErr.UserReqParamErr.A0400.name();
-            String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage()
-                + "- 错误参数[response_type]值应为 " + CODE;
-            throw new BizException(errCode, errMessage);
-        }
-        return true;
-    }
 
     @Getter
-    public static class AuthorizeBuilder implements VerifyScope, SetRedirectUri, SendRedirectI {
+    public static class AuthorizeBuilder implements VerifyResponseType, VerifyScope, SetRedirectUri, ReceiveState, SendRedirectI {
 
         private String clientId;
         private String clientSecret;
         private String scope;
+        private String state;
         private String redirectUri;
+        private String responseType;
 
-        public AuthorizeBuilder(AuthorizationCode authorizationCode) {
-            if (authorizationCode == null) {
+        public AuthorizeBuilder(AuthorizationRequest authorizationRequest) {
+            if (authorizationRequest == null) {
                 String errCode = ErrCode.UserErr.UserReqParamErr.A0400.name();
                 String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage()
                     + " - 参数[client_id]:值不存在";
                 throw new BizException(errCode, errMessage);
             }
-            this.clientId = authorizationCode.getClientId();
-            this.clientSecret = authorizationCode.getClientSecret();
-            this.scope = authorizationCode.getScope();
+            this.responseType = authorizationRequest.getResponseType();
+            this.clientId = authorizationRequest.getClientId();
+            this.clientSecret = authorizationRequest.getClientSecret();
+            this.scope = authorizationRequest.getScope();
+            this.state = authorizationRequest.getState();
+        }
+
+        /**
+         * 验证 response_type
+         *
+         * @return
+         */
+        @Override
+        public VerifyScope verifyResponseType() {
+            boolean checkResponseType = ResponseType.Code.equals(ResponseType.of(responseType));
+            if (!checkResponseType) {
+                String errCode = ErrCode.UserErr.UserReqParamErr.A0400.name();
+                String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage()
+                    + "- 参数[response_type]";
+                throw new BizException(errCode, errMessage);
+            }
+            return this;
         }
 
         @Override
@@ -98,7 +109,7 @@ public class AuthorizationCode extends OAuthToken {
         }
 
         @Override
-        public SendRedirectI setRedirectUri(String redirectUri) {
+        public ReceiveState setRedirectUri(String redirectUri) {
             String errorCode = ErrCode.UserErr.UserReqParamErr.A0410.name();
             String errMessage = ErrCode.UserErr.UserReqParamErr.A0410.getErrMessage()
                 + " - 参数 [redirect_uri]";
@@ -116,49 +127,99 @@ public class AuthorizationCode extends OAuthToken {
         }
 
         @Override
+        public SendRedirectI receiveState(String state) {
+            this.state = state;
+            return this;
+        }
+
+        @Override
         public String sendRedirect() {
             // 生成code
             String code = UUID.randomUUID().toString();
             // 缓存
             authorizationCodeCacheMap.put(code, this.clientId + this.redirectUri);
-            return this.redirectUri + "?code=" + code;
+            String redirectUri = this.redirectUri + "?code=" + code;
+            if (state != null) {
+                redirectUri += "&state=" + state;
+            }
+            return redirectUri;
         }
-
     }
 
-    @Override
-    public void checkGrantType(String grantType) {
-        boolean checkGrantType = GrantType.authorizationCode.equals(GrantType.of(grantType));
-        if (!checkGrantType) {
+    public static AccessTokenBuilder accessToken(AccessTokenRequest accessTokenRequest) {
+        return new AccessTokenBuilder(accessTokenRequest);
+    }
+
+    @Getter
+    public static class AccessTokenBuilder implements VerifyCode, GenAccessToken, ExpiredCode, IssueAccessToken {
+        private String clientId;
+        private String clientSecret;
+        private String code;
+        private String redirectUri;
+        private String grantType;
+
+        private AccessTokenResponse accessTokenResponse;
+
+        public int i = 0;
+
+
+        public AccessTokenBuilder(AccessTokenRequest accessTokenRequest) {
+            this.grantType = accessTokenRequest.getGrantType();
+            this.clientId = accessTokenRequest.getClientId();
+            this.clientSecret = accessTokenRequest.getClientSecret();
+            this.code = accessTokenRequest.getCode();
+            this.redirectUri = accessTokenRequest.getRedirectUri();
+
+        }
+
+        public VerifyCode verifyGrantType() {
+            boolean checkGrantType = GrantType.authorizationCode.equals(GrantType.of(grantType));
+            if (!checkGrantType) {
+                String errCode = ErrCode.UserErr.UserReqParamErr.A0400.name();
+                String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage()
+                    + "- 错误参数[grant_type]值应为 " + AUTHORIZATION_CODE;
+                throw new BizException(errCode, errMessage);
+            }
+            return this;
+        }
+
+        @Override
+        public GenAccessToken verifyCode() {
             String errCode = ErrCode.UserErr.UserReqParamErr.A0400.name();
-            String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage()
-                + "- 错误参数[grant_type]值应为 " + AUTHORIZATION_CODE;
-            throw new BizException(errCode, errMessage);
+            String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage() +
+                " - 无效code值";
+            Assert.isTrue(authorizationCodeCacheMap.containsKey(code), errCode, errMessage);
+            return this;
+        }
+
+        /**
+         * 生成令牌
+         */
+        @Override
+        public ExpiredCode genAccessToken() {
+            AccessTokenResponse accessTokenResponse = new AccessTokenResponse();
+            accessTokenResponse.setAccessToken("accessToken-vvvvvv");
+            accessTokenResponse.setTokenType("bearer");
+            accessTokenResponse.setExpiresIn(3600);
+            accessTokenResponse.setRefreshToken("refreshToken-xxxxx");
+            accessTokenResponse.setUid(String.valueOf(i));
+            this.accessTokenResponse = accessTokenResponse;
+            return this;
+        }
+
+        @Override
+        public IssueAccessToken expiredCode() {
+            authorizationCodeCacheMap.remove(code);
+            return this;
+        }
+
+        @Override
+        public AccessTokenResponse issueAccessToken() {
+            i++;
+
+            return this.accessTokenResponse;
         }
     }
 
-    /**
-     * 生成令牌
-     */
-    public AssessToken genToken() {
-        String clientId = this.getClientId();
-        String clientSecret = this.getClientSecret();
 
-        AssessToken assessToken = new AssessToken();
-        assessToken.setAccessToken("1111");
-        return assessToken;
-    }
-
-    /**
-     * 颁发令牌
-     */
-    public SingleResponse<AssessToken> issueToken(AssessToken assessToken) {
-        if (assessToken == null) {
-            ErrCode.UserErr.UserReqServiceException a0500 = ErrCode.UserErr.UserReqServiceException.A0500;
-            String errCode = a0500.name();
-            String errMessage = a0500.getErrMessage();
-            throw new BizException(errCode, errMessage);
-        }
-        return SingleResponse.of(assessToken);
-    }
 }

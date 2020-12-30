@@ -28,4 +28,8 @@ public class AuthorizationCodeGetCmd {
      */
     private String scope;
 
+    /**
+     * 随机数，防止CSRF攻击
+     */
+    private String state;
 }

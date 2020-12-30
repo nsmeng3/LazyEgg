@@ -28,7 +28,7 @@ public enum ResponseType {
                 return value;
             } else {
                 String errCode = ErrCode.UserErr.UserReqParamErr.A0400.name();
-                String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage() + "- 错误参数[response_type]";
+                String errMessage = ErrCode.UserErr.UserReqParamErr.A0400.getErrMessage() + "- 参数[response_type]";
                 throw new BizException(errCode, errMessage);
             }
         }

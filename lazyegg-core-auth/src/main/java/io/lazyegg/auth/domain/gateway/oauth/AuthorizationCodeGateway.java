@@ -1,6 +1,6 @@
 package io.lazyegg.auth.domain.gateway.oauth;
 
-import io.lazyegg.auth.domain.oauth.AssessToken;
+import io.lazyegg.auth.domain.oauth.AccessTokenResponse;
 import io.lazyegg.auth.domain.oauth.AuthorizationCode;
 
 /**
@@ -20,9 +20,9 @@ public interface AuthorizationCodeGateway {
      * 颁发令牌
      *
      * @param redirectUri
-     * @param assessToken
+     * @param accessTokenResponse
      */
-    void issueToken(String redirectUri, AssessToken assessToken);
+    void issueToken(String redirectUri, AccessTokenResponse accessTokenResponse);
 
     AuthorizationCode getClientRegistrationInfo(String clientId);
 }

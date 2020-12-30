@@ -11,4 +11,5 @@ public class OAuthTokenGetCmd {
     private String clientSecret;
     private String grantType;
     private String code;
+    private String redirectUri;
 }

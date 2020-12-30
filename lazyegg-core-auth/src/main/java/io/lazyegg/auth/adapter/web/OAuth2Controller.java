@@ -4,12 +4,14 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.exception.SysException;
 import io.lazyegg.auth.app.executor.AuthorizationCodeGetCmdExe;
 import io.lazyegg.auth.app.executor.LeggOAuthTokenGetCmdExe;
+import io.lazyegg.auth.client.OAuthTokenServiceI;
 import io.lazyegg.auth.client.dto.AuthorizationCodeGetCmd;
 import io.lazyegg.auth.client.dto.OAuthTokenGetCmd;
 import io.lazyegg.constants.ErrCode;
 import io.lazyegg.constants.RequestParamType;
 import io.lazyegg.web.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,10 +30,9 @@ import java.util.UUID;
 @RestController
 public class OAuth2Controller extends BaseController {
 
+
     @Resource
-    private AuthorizationCodeGetCmdExe authorizationCodeGetCmdExe;
-    @Resource
-    private LeggOAuthTokenGetCmdExe OAuthTokenGetCmdExe;
+    private OAuthTokenServiceI oAuthTokenService;
 
     /**
      * 授权
@@ -41,7 +42,7 @@ public class OAuth2Controller extends BaseController {
     @GetMapping("/authorize")
     public void authorize(HttpServletRequest request, HttpServletResponse response) {
         AuthorizationCodeGetCmd authorizationCodeGetCmd = requestParams(request, AuthorizationCodeGetCmd.class, RequestParamType.Query);
-        String callbackUrl = authorizationCodeGetCmdExe.execute(authorizationCodeGetCmd);
+        String callbackUrl = oAuthTokenService.authorizeRedirect(authorizationCodeGetCmd);
         try {
             response.sendRedirect(callbackUrl);
         } catch (IOException e) {
@@ -54,10 +55,11 @@ public class OAuth2Controller extends BaseController {
     /**
      * 获取令牌
      */
-    @GetMapping("/token")
-    public Response token() {
+    @PostMapping("/access_token")
+    public Response accessToken() {
         OAuthTokenGetCmd OAuthTokenGetCmd = requestParams(OAuthTokenGetCmd.class);
-        return OAuthTokenGetCmdExe.execute(OAuthTokenGetCmd);
+        Response execute = oAuthTokenService.accessToken(OAuthTokenGetCmd);
+        return execute;
 
     }
 }

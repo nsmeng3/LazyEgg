@@ -16,12 +16,4 @@ public abstract class OAuthToken {
     private String grantType;
     private String clientId;
 
-
-    /**
-     * 检查 grantType
-     *
-     * @param grantType
-     * @return
-     */
-    public abstract void checkGrantType(String grantType);
 }

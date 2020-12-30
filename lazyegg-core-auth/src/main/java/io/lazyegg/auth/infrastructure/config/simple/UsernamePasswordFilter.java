@@ -58,7 +58,8 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
     }
 
     /**
-     * 是否是拒绝登录, 用户做黑白名单处理
+     * 没有登录的情况下会走此方法
+     * 返回true 会放行filter
      *
      * @param request
      * @param response
@@ -67,7 +68,7 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        return executeLogin(request, response);
+        return false;
     }
 
     @SneakyThrows

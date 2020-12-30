@@ -65,13 +65,13 @@ public class ShiroConfiguration {
         filterChainMap.put("/js/**", "anon");
         filterChainMap.put("/swagger-*/**", "anon");
         filterChainMap.put("/swagger-ui.html/**", "anon");
-        filterChainMap.put("/oauth/**", "oauth2");
+        filterChainMap.put("/oauth/**", "anon");
         // 登录 URL 放行
         filterChainMap.put("/login", "simple");
         // 配置 logout 过滤器
         filterChainMap.put("/logout", "anon");
 
-        filterChainMap.put("/**", "oauth2");
+        filterChainMap.put("/**", "simple");
 
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);

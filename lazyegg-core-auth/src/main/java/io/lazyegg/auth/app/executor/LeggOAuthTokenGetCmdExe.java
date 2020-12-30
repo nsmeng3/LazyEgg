@@ -1,8 +1,10 @@
 package io.lazyegg.auth.app.executor;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.dto.SingleResponse;
 import io.lazyegg.auth.client.dto.OAuthTokenGetCmd;
-import io.lazyegg.auth.domain.oauth.AssessToken;
+import io.lazyegg.auth.domain.oauth.AccessTokenRequest;
+import io.lazyegg.auth.domain.oauth.AccessTokenResponse;
 import io.lazyegg.auth.domain.oauth.AuthorizationCode;
 import org.springframework.stereotype.Component;
 
@@ -13,15 +15,23 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class LeggOAuthTokenGetCmdExe {
-    public Response execute(OAuthTokenGetCmd oAuthTokenGetCmd) {
-
-        AuthorizationCode authorizationCode =
-            new AuthorizationCode();
+    public Response execute(OAuthTokenGetCmd cmd) {
 
         // 检查GrantType
-        authorizationCode.checkGrantType(oAuthTokenGetCmd.getGrantType());
-        AssessToken assessToken = authorizationCode.genToken();
-        return authorizationCode.issueToken(assessToken);
+        AccessTokenRequest accessTokenRequest = new AccessTokenRequest();
+        accessTokenRequest.setGrantType(cmd.getGrantType());
+        accessTokenRequest.setClientId(cmd.getClientId());
+        accessTokenRequest.setClientSecret(cmd.getClientSecret());
+        accessTokenRequest.setCode(cmd.getCode());
+        accessTokenRequest.setRedirectUri(cmd.getRedirectUri());
+
+        AccessTokenResponse accessTokenResponse =
+            AuthorizationCode.accessToken(accessTokenRequest)
+                .verifyGrantType()
+                .verifyCode()
+                .genAccessToken().expiredCode().issueAccessToken();
+
+        return SingleResponse.of(accessTokenResponse);
 
     }
 }

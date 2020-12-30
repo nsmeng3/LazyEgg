@@ -1,7 +1,7 @@
 package io.lazyegg.auth.infrastructure.gatewayimpl;
 
 import io.lazyegg.auth.domain.gateway.oauth.AuthorizationCodeGateway;
-import io.lazyegg.auth.domain.oauth.AssessToken;
+import io.lazyegg.auth.domain.oauth.AccessTokenResponse;
 import io.lazyegg.auth.domain.oauth.AuthorizationCode;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class AuthorizationCodeGatewayImpl implements AuthorizationCodeGateway {
     }
 
     @Override
-    public void issueToken(String redirectUri, AssessToken assessToken) {
+    public void issueToken(String redirectUri, AccessTokenResponse accessTokenResponse) {
 
     }
 

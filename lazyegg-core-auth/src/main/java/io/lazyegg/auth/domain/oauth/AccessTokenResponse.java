@@ -12,7 +12,7 @@ import java.util.Map;
  * @author DifferentW  nsmeng3@163.com 2020/12/29 1:21 上午
  */
 @Data
-public class AssessToken {
+public class AccessTokenResponse {
 
     /**
      * accessToken

@@ -5,6 +5,7 @@ import com.alibaba.cola.exception.BizException;
 import io.lazyegg.auth.client.dto.AuthorizationCodeGetCmd;
 import io.lazyegg.auth.domain.gateway.oauth.AuthorizationCodeGateway;
 import io.lazyegg.auth.domain.oauth.AuthorizationCode;
+import io.lazyegg.auth.domain.oauth.AuthorizationRequest;
 import io.lazyegg.constants.ErrCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -23,13 +24,22 @@ public class AuthorizationCodeGetCmdExe extends Command {
     private AuthorizationCodeGateway authorizationCodeGateway;
 
     public String execute(AuthorizationCodeGetCmd cmd) {
+        AuthorizationRequest authorizationRequest = new AuthorizationRequest();
         // 验证 response_type
-        AuthorizationCode.verifyResponseType(cmd.getResponseType());
         AuthorizationCode info = authorizationCodeGateway.getClientRegistrationInfo(cmd.getClientId());
+        authorizationRequest.setResponseType(cmd.getResponseType());
+        authorizationRequest.setState(cmd.getState());
+        authorizationRequest.setRedirectUri(cmd.getRedirectUri());
+
+        authorizationRequest.setClientId(info.getClientId());
+        authorizationRequest.setClientSecret(info.getClientSecret());
+        authorizationRequest.setScope(info.getScope());
         // 生成回调地址
-        return AuthorizationCode.authorize(info)
+        return AuthorizationCode.authorize(authorizationRequest)
+            .verifyResponseType()
             .verifyScope(cmd.getScope())
             .setRedirectUri(cmd.getRedirectUri())
+            .receiveState(cmd.getState())
             .sendRedirect();
     }
 
