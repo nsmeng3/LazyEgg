@@ -1,3 +1,6 @@
+
 logging:
   level:
     io.lazyegg.log: debug
+server:
+  port: 6617
