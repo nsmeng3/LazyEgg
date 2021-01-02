@@ -9,10 +9,14 @@ import lombok.Data;
  */
 @Data
 public class AuthorizationRequest {
+    private String responseType;
     private String clientId;
-    private String clientSecret;
     private String scope;
     private String state;
     private String redirectUri;
-    private String responseType;
+
+    public AuthorizationRequest(String clientId, String redirectUri) {
+        this.clientId = clientId;
+        this.redirectUri = redirectUri;
+    }
 }

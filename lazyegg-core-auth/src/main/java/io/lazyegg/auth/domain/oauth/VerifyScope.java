@@ -13,5 +13,5 @@ public interface VerifyScope {
      * @param scope
      * @return
      */
-    SetRedirectUri verifyScope(String scope);
+    VerifyRedirectUri verifyScope(String scope);
 }

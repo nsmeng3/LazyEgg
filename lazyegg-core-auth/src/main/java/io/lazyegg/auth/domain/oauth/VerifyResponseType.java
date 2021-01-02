@@ -10,5 +10,5 @@ public interface VerifyResponseType {
      * 验证response_type
      * @return
      */
-    VerifyScope verifyResponseType();
+    VerifyScope verifyResponseType(String responseType);
 }

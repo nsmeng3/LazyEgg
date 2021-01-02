@@ -1,8 +1,8 @@
 package io.lazyegg.auth.infrastructure.gatewayimpl;
 
+import io.lazyegg.auth.domain.oauth.ClientAppRegistrationInfo;
 import io.lazyegg.auth.domain.gateway.oauth.AuthorizationCodeGateway;
 import io.lazyegg.auth.domain.oauth.AccessTokenResponse;
-import io.lazyegg.auth.domain.oauth.AuthorizationCode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,11 +21,11 @@ public class AuthorizationCodeGatewayImpl implements AuthorizationCodeGateway {
     }
 
     @Override
-    public AuthorizationCode getClientRegistrationInfo(String clientId) {
-        AuthorizationCode authorizationCode = new AuthorizationCode();
-        authorizationCode.setClientId(clientId);
-        authorizationCode.setClientSecret("secret");
-        authorizationCode.setScope("read");
-        return authorizationCode;
+    public ClientAppRegistrationInfo getClientRegistrationInfo(String clientId) {
+        ClientAppRegistrationInfo info = new ClientAppRegistrationInfo();
+        info.setClientId(clientId);
+        info.setScope("read");
+        info.setRedirectUri("http://localhost:6627/oauth/client/callback");
+        return info;
     }
 }
