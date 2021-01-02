@@ -7,7 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 全局异常处理
@@ -17,6 +20,14 @@ import javax.servlet.ServletException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @Resource
+    private HttpServletResponse response;
+
+    @ExceptionHandler(NotFound404Exception.class)
+    public void handleNotFound404Exception(NotFound404Exception e) {
+        response.setStatus(404);
+    }
 
     @ExceptionHandler(BaseException.class)
     public Response handleBizException(BaseException e) {
@@ -30,7 +41,8 @@ public class GlobalExceptionHandler {
             return Response.buildFailure(ErrCode.UserErr.AssessPermissionException.A0301.name(),
                 ErrCode.UserErr.AssessPermissionException.A0301.getErrMessage());
         } else if ("org.springframework.web.servlet.NoHandlerFoundException".equals(e.getClass().getName())) {
-            return Response.buildFailure(ErrCode.NOT_FOUND.name(), ErrCode.NOT_FOUND.getErrMessage());
+            response.setStatus(404);
+            return null;
         }else if (e instanceof ServletException) {
             return Response.buildFailure("HTTP_ERR", e.getMessage());
         }
