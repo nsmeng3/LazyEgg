@@ -32,3 +32,10 @@ public Response get(@PathVariable Long userId) {
 
 ```
 
+
+```java
+用户    前端     后端
+login  -> 页面
+xxx为登录 -> login?xxxx
+
+```

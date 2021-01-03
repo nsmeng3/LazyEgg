@@ -49,8 +49,8 @@ public class AuthorizationCode {
     /**
      * 获取授权码
      * <p>
-     * 1. 检查response_type
      * 2. 验证client_id
+     * 1. 检查response_type
      * 3. scope验证
      * 4. 生成一次性code，使用后失效
      *

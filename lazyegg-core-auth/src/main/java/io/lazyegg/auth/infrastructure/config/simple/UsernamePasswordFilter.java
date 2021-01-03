@@ -2,11 +2,14 @@ package io.lazyegg.auth.infrastructure.config.simple;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.exception.BaseException;
-import com.alibaba.cola.exception.BizException;
 import com.alibaba.fastjson.JSONObject;
+import io.lazyegg.exception.NotLoggedInException;
 import io.lazyegg.constants.ErrCode;
+import io.lazyegg.constants.RequestParamType;
+import io.lazyegg.util.RequestParamUtils;
 import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
@@ -16,13 +19,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.Charset;
+import java.util.HashMap;
 
 /**
  * 用户名密码Filter
  *
  * @author DifferentW  nsmeng3@163.com 2020/12/20 11:33 上午
  */
+@Slf4j
 public class UsernamePasswordFilter extends AuthenticatingFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
@@ -31,29 +35,17 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
     }
 
 
-    @SneakyThrows
-    private UsernamePasswordToken getToken(HttpServletRequest request) throws AuthorizationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    private UsernamePasswordToken getToken(HttpServletRequest request) throws Exception{
 
-
-        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            String json = IOUtils.toString(request.getInputStream(), Charset.defaultCharset());
-            JSONObject jsonObject = JSONObject.parseObject(json);
-            if (jsonObject == null) {
-                // 用户登录已过期
-                String errCode = ErrCode.UserErr.UserLoginErr.A0230.name();
-                String errMessage = ErrCode.UserErr.UserLoginErr.A0230.getErrMessage();
-                throw new BizException(errCode, errMessage);
-            }
-            username = jsonObject.getString("username");
-            password = jsonObject.getString("password");
-        }
+        HashMap<String, Object> params = RequestParamUtils.requestParams(request, RequestParamType.Query);
+        String username = MapUtils.getString(params, "username");
+        String password = MapUtils.getString(params, "password");
 
         if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
             return new UsernamePasswordToken(username, password);
         } else {
-            return new UsernamePasswordToken();
+            log.info("未登录-调登录页");
+            throw new NotLoggedInException(request);
         }
     }
 
@@ -68,7 +60,7 @@ public class UsernamePasswordFilter extends AuthenticatingFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        return false;
+        return executeLogin(request, response);
     }
 
     @SneakyThrows

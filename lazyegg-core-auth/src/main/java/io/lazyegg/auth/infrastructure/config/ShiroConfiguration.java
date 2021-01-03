@@ -3,6 +3,8 @@ package io.lazyegg.auth.infrastructure.config;
 import io.lazyegg.auth.infrastructure.config.oauth.OAuth2Filter;
 import io.lazyegg.auth.infrastructure.config.simple.UsernamePasswordCredentialMatcher;
 import io.lazyegg.auth.infrastructure.config.simple.UsernamePasswordFilter;
+import io.lazyegg.exception.GlobalFilter;
+import io.lazyegg.exception.GlobalHandlerExceptionResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -11,6 +13,7 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -37,7 +40,7 @@ public class ShiroConfiguration {
     public SecurityManager securityManager(AuthorizingRealm realm) {
         // 将自定义 Realm 加进来
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(realm);
-        log.info("====securityManager注册完成====");
+        log.info("securityManager注册完成");
         return securityManager;
     }
 
@@ -53,7 +56,9 @@ public class ShiroConfiguration {
         // 未授权界面，权限认证失败会访问该 URL
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
 
-        HashMap<String, Filter> filters = new HashMap<>();
+        LinkedHashMap<String, Filter> filters = new LinkedHashMap<>();
+
+//        filters.put("global", new GlobalFilter());
         filters.put("simple", new UsernamePasswordFilter());
         filters.put("oauth2", new OAuth2Filter());
         shiroFilterFactoryBean.setFilters(filters);
@@ -67,7 +72,7 @@ public class ShiroConfiguration {
         filterChainMap.put("/swagger-ui.html/**", "anon");
         filterChainMap.put("/oauth/**", "anon");
         // 登录 URL 放行
-        filterChainMap.put("/login", "simple");
+        filterChainMap.put("/login", "anon");
         // 配置 logout 过滤器
         filterChainMap.put("/logout", "anon");
 
@@ -75,7 +80,6 @@ public class ShiroConfiguration {
 
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
-
         return shiroFilterFactoryBean;
     }
 

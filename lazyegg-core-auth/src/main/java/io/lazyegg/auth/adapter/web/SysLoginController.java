@@ -11,6 +11,7 @@ import io.lazyegg.web.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class SysLoginController extends BaseController {
     @Resource
     private SysLoginServiceI sysLoginService;
 
-    @RequestMapping("/login")
+    @GetMapping("/session")
     public Response login() {
         SysUserCO sysUserCO = requestParams(SysUserCO.class, RequestParamType.AllParam);
         JSONObject jsonObject = requestParams(RequestParamType.AllParam);
