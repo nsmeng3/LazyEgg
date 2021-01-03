@@ -12,6 +12,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 /**
  * @author DifferentW  nsmeng3@163.com 2020/12/23 12:24 上午
@@ -26,7 +27,7 @@ public abstract class RequestParamUtils {
      * @return
      */
 
-    public static JSONObject requestParams(HttpServletRequest request) {
+    public static HashMap<String, Object> requestParams(HttpServletRequest request) {
         return requestParams(request, RequestParamType.AllParam);
     }
 
@@ -38,7 +39,7 @@ public abstract class RequestParamUtils {
      * @param type
      * @return
      */
-    public static JSONObject requestParams(HttpServletRequest request, RequestParamType type) {
+    public static HashMap<String, Object> requestParams(HttpServletRequest request, RequestParamType type) {
         return choose(request, type);
     }
 
@@ -50,14 +51,15 @@ public abstract class RequestParamUtils {
      * @return
      */
 
-    public static  <T> T requestParams(HttpServletRequest request, Class<T> clientObject) {
+    public static <T> T requestParams(HttpServletRequest request, Class<T> clientObject) {
         return requestParams(request, clientObject, RequestParamType.AllParam);
     }
 
 
     public static <T> T requestParams(HttpServletRequest request, Class<T> clientObject, RequestParamType type) {
-        JSONObject result = requestParams(request, type);
-        return JSONObject.toJavaObject(result, clientObject);
+        HashMap<String, Object> result = requestParams(request, type);
+        JSONObject jsonObject = new JSONObject(result);
+        return JSONObject.toJavaObject(jsonObject, clientObject);
     }
 
     /**
@@ -67,8 +69,8 @@ public abstract class RequestParamUtils {
      * @param type
      * @return
      */
-    private static JSONObject choose(HttpServletRequest request, RequestParamType type) {
-        JSONObject result = new JSONObject();
+    private static HashMap<String, Object> choose(HttpServletRequest request, RequestParamType type) {
+        HashMap<String, Object> result = new HashMap<String, Object>();
         switch (type) {
             case Header: {
                 result.putAll(getHeaderParam(request));
@@ -107,7 +109,7 @@ public abstract class RequestParamUtils {
      * @param request
      * @return
      */
-    private static JSONObject getHeaderParam(HttpServletRequest request) {
+    private static HashMap<String, Object> getHeaderParam(HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
         return whileHeaderEnumeration(request, headerNames);
     }
@@ -155,8 +157,8 @@ public abstract class RequestParamUtils {
      * @param paramNames
      * @return
      */
-    private static JSONObject whileHeaderEnumeration(HttpServletRequest request, Enumeration<String> paramNames) {
-        JSONObject result = new JSONObject();
+    private static HashMap<String, Object> whileHeaderEnumeration(HttpServletRequest request, Enumeration<String> paramNames) {
+        HashMap<String, Object> result = new HashMap<String, Object>();
         while (paramNames.hasMoreElements()) {
             String name = paramNames.nextElement();
             String parameterValues = request.getHeader(name);
@@ -174,9 +176,9 @@ public abstract class RequestParamUtils {
      * @return
      */
     @SneakyThrows
-    private static JSONObject getBodyParam(HttpServletRequest request) {
+    private static HashMap<String, Object> getBodyParam(HttpServletRequest request) {
         // 获取 body参数
-        JSONObject result = new JSONObject();
+        HashMap<String, Object> result = new HashMap<String, Object>();
         ServletInputStream inputStream = request.getInputStream();
         if (inputStream != null) {
             String json = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
