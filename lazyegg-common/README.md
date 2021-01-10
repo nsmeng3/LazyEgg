@@ -1,5 +1,15 @@
 # LazyEgg common
 
+## 过滤器列表
+过滤链 - ApplicationFilterChain
+过滤器 -
+OrderedCharacterEncodingFilter 字符编码过滤器
+ErrorPageFilter 错误页过滤器
+GlobalFilter 自定义 全局过滤器
+OrderedFormContentFilter
+OrderedRequestContextFilter
+ShiroFilterFactoryBean$SpringShiroFilter
+WsFilter
 ## 错误码列表
 
 |错误码 |中文描述 |说明 |

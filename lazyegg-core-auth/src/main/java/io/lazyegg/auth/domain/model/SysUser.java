@@ -18,6 +18,25 @@ public class SysUser {
 
     private String password;
 
+    private String accessToken;
+
+    private String refreshToken;
+
+    private Long loginTime;
+
+    private Long expireTime;
+
+    /**
+     * 盐
+     */
+    private String salt;
+
+    /**
+     * 加盐凭证
+     */
+    private String credentialsSalt;
+
+
     /**
      * 清除密码
      *

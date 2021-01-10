@@ -26,4 +26,6 @@ public interface SysUserMapper {
     int save(SysUserDO sysUser);
 
     List<SysUserDO> list();
+
+    String getPasswordByUsername(String principal);
 }

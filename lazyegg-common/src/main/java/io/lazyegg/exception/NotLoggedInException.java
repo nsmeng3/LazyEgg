@@ -1,9 +1,8 @@
 package io.lazyegg.exception;
 
 import com.alibaba.cola.exception.BaseException;
-import com.alibaba.cola.exception.SysException;
 import io.lazyegg.constants.RequestParamType;
-import io.lazyegg.util.RequestParamUtils;
+import io.lazyegg.util.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +33,7 @@ public class NotLoggedInException extends BaseException {
     public String loginUrl() {
         String contextPath = request.getContextPath();
         String loginUrl = contextPath + "/login";
-        HashMap<String, Object> params = RequestParamUtils.requestParams(request, RequestParamType.Query);
+        HashMap<String, Object> params = ServletUtils.requestParams(request, RequestParamType.Query);
         String clientId = MapUtils.getString(params, "client_id");
         if (StringUtils.isNotBlank(clientId)) {
             loginUrl += String.format("?client_id=%s", clientId);

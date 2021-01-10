@@ -5,20 +5,29 @@ import io.lazyegg.constants.RequestParamType;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
+ * Servlet 工具类
+ *
  * @author DifferentW  nsmeng3@163.com 2020/12/23 12:24 上午
  */
 @Slf4j
-public abstract class RequestParamUtils {
+@Component
+public class ServletUtils {
+
+    public static HttpServletRequest getRequest(ServletRequest request) {
+        return (HttpServletRequest) request;
+    }
 
     /**
      * 获取全部request 参数
@@ -27,8 +36,8 @@ public abstract class RequestParamUtils {
      * @return
      */
 
-    public static HashMap<String, Object> requestParams(HttpServletRequest request) {
-        return requestParams(request, RequestParamType.AllParam);
+    public static HashMap<String, Object> requestParams(ServletRequest request) {
+        return requestParams(getRequest(request), RequestParamType.AllParam);
     }
 
 
@@ -39,8 +48,8 @@ public abstract class RequestParamUtils {
      * @param type
      * @return
      */
-    public static HashMap<String, Object> requestParams(HttpServletRequest request, RequestParamType type) {
-        return choose(request, type);
+    public static HashMap<String, Object> requestParams(ServletRequest request, RequestParamType type) {
+        return choose(getRequest(request), type);
     }
 
     /**
@@ -51,12 +60,12 @@ public abstract class RequestParamUtils {
      * @return
      */
 
-    public static <T> T requestParams(HttpServletRequest request, Class<T> clientObject) {
-        return requestParams(request, clientObject, RequestParamType.AllParam);
+    public static <T> T requestParams(ServletRequest request, Class<T> clientObject) {
+        return requestParams(getRequest(request), clientObject, RequestParamType.AllParam);
     }
 
 
-    public static <T> T requestParams(HttpServletRequest request, Class<T> clientObject, RequestParamType type) {
+    public static <T> T requestParams(ServletRequest request, Class<T> clientObject, RequestParamType type) {
         HashMap<String, Object> result = requestParams(request, type);
         JSONObject jsonObject = new JSONObject(result);
         return JSONObject.toJavaObject(jsonObject, clientObject);
@@ -65,11 +74,12 @@ public abstract class RequestParamUtils {
     /**
      * 指定获取参数
      *
-     * @param request
+     * @param servletRequest
      * @param type
      * @return
      */
-    private static HashMap<String, Object> choose(HttpServletRequest request, RequestParamType type) {
+    public static HashMap<String, Object> choose(ServletRequest servletRequest, RequestParamType type) {
+        HttpServletRequest request = getRequest(servletRequest);
         HashMap<String, Object> result = new HashMap<String, Object>();
         switch (type) {
             case Header: {
@@ -191,4 +201,21 @@ public abstract class RequestParamUtils {
     }
 
 
+    public static String getAuthorization(ServletRequest request) {
+        HashMap<String, Object> params = requestParams(request, RequestParamType.Header);
+        if (params.containsKey("authorization")) {
+            Object authorization = params.get("authorization");
+            if (authorization == null) {
+                return null;
+            }
+            return String.valueOf(authorization);
+        } else if (params.containsKey("Authorization")) {
+            Object authorization = params.get("Authorization");
+            if (authorization == null) {
+                return null;
+            }
+            return String.valueOf(authorization);
+        }
+        return null;
+    }
 }

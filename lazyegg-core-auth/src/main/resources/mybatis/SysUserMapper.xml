@@ -69,6 +69,11 @@
         select *
         from sys_user
     </select>
+    <select id="getPasswordByUsername" resultType="java.lang.String">
+        select password
+        from sys_user
+        where username = #{username}
+    </select>
 
 
 </mapper>

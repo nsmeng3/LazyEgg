@@ -18,6 +18,9 @@ LazyEgg-auth
     └── xxxx   
 ```
 
+全局过滤器Filter - 设置编码、拦截异常
+鉴权过滤器Filter - 
+
 ## 开发注意事项
 1. Controller中，请求注解要写在其他注解之前，否则访问日志有可能无法拦截到请求。
 ```java

@@ -60,7 +60,7 @@ public class SysUserGatewayImpl implements SysUserGateway {
     @Override
     public SysUser getByUsername(String username) {
         SysUserDO sysUserDO = sysUserMapper.getByUsername(username);
-        Assert.notNull(sysUserDO, ErrCode.UserErr.UserLoginErr.A0201.name(), ErrCode.UserErr.UserLoginErr.A0201.getErrMessage());
+//        Assert.notNull(sysUserDO, ErrCode.UserErr.UserLoginErr.A0201.name(), ErrCode.UserErr.UserLoginErr.A0201.getErrMessage());
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserDO, sysUser);
         return sysUser;

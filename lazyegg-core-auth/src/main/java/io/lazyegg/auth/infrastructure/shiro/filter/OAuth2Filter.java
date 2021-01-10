@@ -1,6 +1,6 @@
-package io.lazyegg.auth.infrastructure.config.oauth;
+package io.lazyegg.auth.infrastructure.shiro.filter;
 
-import io.lazyegg.util.RequestParamUtils;
+import io.lazyegg.util.ServletUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.BearerToken;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
@@ -19,7 +19,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
 
     @Override
     protected AuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        HashMap<String, Object> params = RequestParamUtils.requestParams((HttpServletRequest) servletRequest);
+        HashMap<String, Object> params = ServletUtils.requestParams((HttpServletRequest) servletRequest);
         return new BearerToken("token");
     }
 
