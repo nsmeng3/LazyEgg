@@ -14,19 +14,19 @@ import lombok.extern.slf4j.Slf4j;
 public class Message {
 
     /**
-     * 	String		获取成功时提示
+     * 获取成功时提示
      */
     private String fetchSuccess;
     /**
-     * 	String		获取失败时提示
+     * 获取失败时提示
      */
     private String fetchFailed;
     /**
-     * 	String		保存成功时提示
+     * 保存成功时提示
      */
     private String saveSuccess;
     /**
-     * 	String		保存失败时提示
+     * 保存失败时提示
      */
     private String saveFailed;
 }

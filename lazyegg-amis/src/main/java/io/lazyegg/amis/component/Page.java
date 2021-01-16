@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+
 /**
  * Page 页面
  *
@@ -18,14 +20,22 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Setter
 @Data
-//@Builder(builderMethodName = "hiddenBuilder")
-public class Page implements Schema {
+public class Page<T> implements SchemaNode{
 
     public Page(Schema body) {
-        this.body = body;
+        setBody((T) body);
     }
+
+    public Page(ArrayList<Schema> body) {
+        setBody((T) body);
+    }
+
     public Page(String body) {
-        this.body = new SchemaNodeForString(body);
+       setBody((T) body);
+    }
+
+    private void setBody(T body) {
+        this.body = body;
     }
 
     private final String type = "page";
@@ -33,11 +43,11 @@ public class Page implements Schema {
     /**
      * 页面标题
      */
-    private Schema title;
+    private T title;
     /**
      * 页面副标题
      */
-    private Schema subTitle;
+    private T subTitle;
     /**
      * 标题附近会出现一个提示图标，鼠标放上去会提示该内容。
      */
@@ -45,15 +55,15 @@ public class Page implements Schema {
     /**
      * 往页面的边栏区域加内容
      */
-    private Schema aside;
+    private T aside;
     /**
      * 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部
      */
-    private Schema toolbar;
+    private T toolbar;
     /**
      * 往页面的内容区域加内容
      */
-    private Schema body;
+    private T body;
     /**
      * 外层 dom 类名
      */

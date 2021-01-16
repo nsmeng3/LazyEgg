@@ -1,13 +1,19 @@
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.lazyegg.amis.ActionSize;
+import io.lazyegg.amis.ActionType;
+import io.lazyegg.amis.Level;
+import io.lazyegg.amis.Mode;
+import io.lazyegg.amis.component.Action;
+import io.lazyegg.amis.component.Form;
 import io.lazyegg.amis.component.Page;
-import io.lazyegg.amis.component.SchemaNodeForString;
 import io.lazyegg.amis.valid.Validation;
 import io.lazyegg.amis.valid.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
@@ -30,11 +36,28 @@ public class Test {
         Pattern compile = Pattern.compile("/xxxxx/");
 
 
-        Page xxxx = new Page("xxxx");
-        xxxx.setAside(new SchemaNodeForString("xxxx"));
+        Form formItem = new Form();
+        formItem.setName("x333");
+        formItem.setClassName("xxxx");
+
+        Form body = new Form();
+        body.setMode(Mode.normal);
+        ArrayList<Action> actList = new ArrayList<>();
+        Action e = new Action(ActionType.url);
+        e.setSize(ActionSize.lg);
+        e.setLevel(Level.DEFAULT);
+        e.setConfirmText("xxxxxxxx${xxxx}");
+        e.setLabel("xxxxcw");
+        e.setClose(true);
+        e.addRequired("xxxxx").addRequired("ssssss").addRequired("33333");
+
+        actList.add(e);
+        body.setActions(actList);
+        Page xxxx = new Page(body);
+//        xxxx.setAside("xxx");
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
 
-        log.info(objectMapper.writeValueAsString(xxxx));
+        log.info("\n{}", objectMapper.writeValueAsString(xxxx));
     }
 }

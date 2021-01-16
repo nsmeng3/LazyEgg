@@ -27,7 +27,7 @@ public class API {
      */
     private String url;
     /**
-     * 请求数据		支持数据映射
+     * 请求数据 支持数据映射
      */
     private Data data;
     /**

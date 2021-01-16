@@ -1,7 +1,9 @@
 package io.lazyegg.amis.component;
 
 import io.lazyegg.amis.API;
+import io.lazyegg.amis.Horizontal;
 import io.lazyegg.amis.Message;
+import io.lazyegg.amis.Mode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +19,12 @@ import java.util.ArrayList;
 @Slf4j
 @Getter
 @Setter
-public class Form implements SchemaNode {
+public class Form implements Schema {
 
     /**
      * "form" 指定为 Form 渲染器
      */
-    private String type;
+    private final String type = "form";
     /**
      * 设置一个名字后，方便其他组件与其通信
      */
@@ -31,12 +33,12 @@ public class Form implements SchemaNode {
      * normal
      * 表单展示方式，可以是：normal、horizontal 或者 inline
      */
-    private String mode;
+    private Mode mode = Mode.normal;
     /**
      * {"left":"col-sm-2", "right":"col-sm-10", "offset":"col-sm-offset-2"}
      * 当 mode 为 horizontal 时有用，用来控制 label
      */
-    private Object horizontal = "{\"left\":\"col-sm-2\", \"right\":\"col-sm-10\", \"offset\":\"col-sm-offset-2\"}";
+    private Horizontal horizontal;
     /**
      * "表单" Form 的标题
      */
@@ -65,7 +67,7 @@ public class Form implements SchemaNode {
     /**
      * true	是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。
      */
-    private boolean wrapWithPanel;
+    private Boolean wrapWithPanel;
     /**
      * 外层 panel 的类名
      */
@@ -85,7 +87,7 @@ public class Form implements SchemaNode {
     /**
      * false	配置刷新时是否显示加载动画
      */
-    private boolean silentPolling;
+    private Boolean silentPolling;
     /**
      * ""	通过表达式 来配置停止刷新的条件
      */
@@ -97,7 +99,7 @@ public class Form implements SchemaNode {
     /**
      * true	设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口
      */
-    private boolean initFetch;
+    private Boolean initFetch;
     /**
      * 用表达式来配置
      */
@@ -125,15 +127,15 @@ public class Form implements SchemaNode {
     /**
      * false	表单修改即提交
      */
-    private boolean submitOnChange;
+    private Boolean submitOnChange;
     /**
      * false	初始就提交一次
      */
-    private boolean submitOnInit;
+    private Boolean submitOnInit;
     /**
      * false	提交后是否重置表单
      */
-    private boolean resetAfterSubmit;
+    private Boolean resetAfterSubmit;
     /**
      * "id"	设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。
      */
@@ -153,25 +155,25 @@ public class Form implements SchemaNode {
     /**
      * false	是否自动聚焦。
      */
-    private boolean autoFocus;
+    private Boolean autoFocus;
     /**
      * true	指定是否可以自动获取上层的数据并映射到表单项上
      */
-    private boolean canAccessSuperData;
+    private Boolean canAccessSuperData;
     /**
      * true	指定表单是否开启本地缓存
      */
-    private boolean persistData;
+    private Boolean persistData;
     /**
      * true	指定表单提交成功后是否清除本地缓存
      */
-    private boolean clearPersistDataAfterSubmit;
+    private Boolean clearPersistDataAfterSubmit;
     /**
      * false	trim 当前表单项的每一个值
      */
-    private boolean trimValues;
+    private Boolean trimValues;
     /**
      * false	form 还没保存，即将离开页面前是否弹框确认。
      */
-    private boolean promptPageLeave;
+    private Boolean promptPageLeave;
 }

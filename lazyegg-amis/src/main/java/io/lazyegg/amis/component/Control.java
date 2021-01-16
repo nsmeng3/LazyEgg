@@ -1,6 +1,5 @@
 package io.lazyegg.amis.component;
 
-import io.lazyegg.amis.Template;
 import io.lazyegg.amis.valid.Validation;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 @Setter
-public abstract class Control implements SchemaNode {
+public abstract class Control implements Schema {
 
     /**
      * 表单最外层类名
@@ -37,7 +36,7 @@ public abstract class Control implements SchemaNode {
     /**
      * 或 false		表单项标签
      */
-    private Template label;
+    private String label;
     /**
      * 表单项标签描述
      */
@@ -45,7 +44,7 @@ public abstract class Control implements SchemaNode {
     /**
      * 表单项描述
      */
-    private Template description;
+    private String description;
     /**
      * 表单项描述
      */
