@@ -1,8 +1,9 @@
 package io.lazyegg.attendance.domain;
 
-import com.whir.rd.attendance.domain.att.rule.RuleFactoryBean;
-import com.whir.rd.attendance.domain.att.status.AttStatus;
-import com.whir.rd.attendance.domain.att.rule.AttendanceRule;
+
+import io.lazyegg.attendance.domain.att.rule.AttendanceRule;
+import io.lazyegg.attendance.domain.att.rule.RuleFactoryBean;
+import io.lazyegg.attendance.domain.att.status.AttStatus;
 
 import java.util.List;
 import java.util.Map;

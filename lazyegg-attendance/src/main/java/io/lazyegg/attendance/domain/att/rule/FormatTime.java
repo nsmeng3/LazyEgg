@@ -1,6 +1,7 @@
 package io.lazyegg.attendance.domain.att.rule;
 
-import com.whir.rd.attendance.exception.AttException;
+
+import io.lazyegg.attendance.exception.AttException;
 
 import java.util.Calendar;
 import java.util.Date;

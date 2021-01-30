@@ -1,7 +1,8 @@
 package io.lazyegg.attendance.domain.att.rule;
 
-import com.whir.rd.attendance.domain.AttDate;
-import com.whir.rd.attendance.domain.att.status.AttStatus;
+
+import io.lazyegg.attendance.domain.AttDate;
+import io.lazyegg.attendance.domain.att.status.AttStatus;
 
 /**
  * 迟到时间
